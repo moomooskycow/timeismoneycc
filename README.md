@@ -119,6 +119,14 @@ npm audit --audit-level=high
 
 Detailed CI test procedures are documented in [CI-TEST-PLAN.md](CI-TEST-PLAN.md).
 
+## GitHub Pages Publishing
+
+In repository **Settings → Pages**, set **Build and deployment → Source** to **GitHub Actions**.
+
+The [Pages workflow](.github/workflows/pages.yml) stages the static website on pushes to `master`, pull requests targeting `master`, and manual dispatches. Only non-PR runs on `master` deploy to the `github-pages` environment.
+
+The Pages artifact contains only `index.html`, `styles.css`, the committed `browser-scripts.js`, and the complete `images/` directory. Publishing does not run Jekyll or the npm TypeScript build; `dist/` is not used by the landing page. Development documentation and its existing links remain in the repository, outside the published artifact.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
