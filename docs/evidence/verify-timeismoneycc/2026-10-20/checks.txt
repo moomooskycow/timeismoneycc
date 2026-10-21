@@ -1,0 +1,48 @@
+Prepared worktree: ~/.cache/tmp/verify-timeismoneycc
+Branch: verify/verification-skill
+Base: 4e1d23ffc8253bd1c662de5d63429ced7fb3ae95
+Published snapshot: 3aa1acb09ee26fda6180efd58b4653d02a99bf30
+Playwright: 1.58.0; Chromium: 145.0.7632.6
+
+$ python3 .agents/skills/verify-timeismoneycc/verify.py doctor --evidence docs/evidence/verify-timeismoneycc/2026-10-20/doctor
+Exit 0: 7 PASS. Actual canonical assets, root/homepage, missing-path refusal.
+
+$ ~/.cache/tmp/verify-timeismoneycc-tools/bin/python .agents/skills/verify-timeismoneycc/verify.py local --evidence docs/evidence/verify-timeismoneycc/2026-10-20/local
+Exit 1: 15 PASS, 4 FAIL. All mapped journeys attempted; failures preserved.
+See local/results.json and local/transcript.txt.
+
+$ ~/.cache/tmp/verify-timeismoneycc-tools/bin/python .agents/skills/verify-timeismoneycc/verify.py production --evidence docs/evidence/verify-timeismoneycc/2026-10-20/production
+Exit 1: 11 PASS, 5 FAIL. All mapped journeys attempted; failures preserved.
+See production/results.json and production/transcript.txt.
+
+$ npm run typecheck
+Exit 0.
+
+$ npm test -- --coverage --runInBand
+Exit 0: 3 suites, 43 tests passed.
+
+$ npm run lint:all
+Exit 0: ESLint, Stylelint, Prettier pass. One pre-existing max-lines-per-function warning at tests/scripts.test.ts:189.
+See lint.txt. Generated JSON was formatted with repository Prettier; captured page text had trailing whitespace normalized before commit.
+
+$ gitleaks dir .agents --redact=100 --no-banner
+Exit 0: no leaks found.
+
+$ gitleaks dir docs/evidence/verify-timeismoneycc/2026-10-20 --redact=100 --no-banner
+Exit 0: no leaks found.
+
+$ git diff --cached --check
+Exit 0.
+
+Additional artifact checks (Python standard-library assertions):
+- Helper compiles; executable bit retained; --help works without Playwright.
+- .claude/skills/verify-timeismoneycc resolves to .agents/skills/verify-timeismoneycc.
+- Four feature files have the required H2 contract and a matching index.
+- Every relative link in the skill and commissioning report resolves.
+- All retained files are below 500 KB; screenshots and JSON survive cleanup.
+- The local run's owned loopback port is closed after cleanup.
+- No helper-owned process remains; no shared server or database was stopped.
+
+Owner sign-in: n/a, public static site with no authentication.
+Receiver-side form delivery: n/a, no form or delivery backend.
+Chrome extension installation/runtime: separate product, outside this site's verification.

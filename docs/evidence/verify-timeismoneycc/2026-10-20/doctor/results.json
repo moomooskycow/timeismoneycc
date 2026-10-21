@@ -1,0 +1,74 @@
+{
+  "mode": "doctor",
+  "started_utc": "2026-10-21T00:43:56.749267+00:00",
+  "checkout_sha": "4e1d23ffc8253bd1c662de5d63429ced7fb3ae95",
+  "serving_source": "3aa1acb09ee26fda6180efd58b4653d02a99bf30",
+  "owner_sign_in": "n/a: public static site; no authentication",
+  "checks": [
+    {
+      "name": "doctor-asset:/timeismoneycc/browser-scripts.js",
+      "status": "PASS",
+      "detail": {
+        "url": "https://timeismoneycc-site.mistystep.io/timeismoneycc/browser-scripts.js",
+        "status": 200,
+        "sha256": "d961fd1c5cf5c75869f4660523bb16dd22fc769230e27e176fe1fd001fd17df2"
+      }
+    },
+    {
+      "name": "doctor-asset:/timeismoneycc/images/chrome.png",
+      "status": "PASS",
+      "detail": {
+        "url": "https://timeismoneycc-site.mistystep.io/timeismoneycc/images/chrome.png",
+        "status": 200,
+        "sha256": "292f2fd6fa7ed33415adf055a79964e530bd08ee15481f6f8c6596fb35e94ce6"
+      }
+    },
+    {
+      "name": "doctor-asset:/timeismoneycc/images/icon.png",
+      "status": "PASS",
+      "detail": {
+        "url": "https://timeismoneycc-site.mistystep.io/timeismoneycc/images/icon.png",
+        "status": 200,
+        "sha256": "41a6db3d3da384c9a2f2dba49bd6659e85f57352b2edb021b10ee814631b8e3a"
+      }
+    },
+    {
+      "name": "doctor-asset:/timeismoneycc/index.html",
+      "status": "PASS",
+      "detail": {
+        "url": "https://timeismoneycc-site.mistystep.io/timeismoneycc/",
+        "status": 200,
+        "sha256": "b701d21f1b55ad3fb9ae4907446b13189c45f2480c810ccb62846b6ffeac973e"
+      }
+    },
+    {
+      "name": "doctor-asset:/timeismoneycc/styles.css",
+      "status": "PASS",
+      "detail": {
+        "url": "https://timeismoneycc-site.mistystep.io/timeismoneycc/styles.css",
+        "status": 200,
+        "sha256": "8078cecb4c72fe93eb66ea8dc70d846f8807aa0919f800ca905965e174d8a1b1"
+      }
+    },
+    {
+      "name": "doctor-root-and-homepage",
+      "status": "PASS",
+      "detail": {
+        "root_redirect_to": "https://timeismoneycc-site.mistystep.io/timeismoneycc/",
+        "status": 200,
+        "sha256": "b701d21f1b55ad3fb9ae4907446b13189c45f2480c810ccb62846b6ffeac973e"
+      }
+    },
+    {
+      "name": "doctor-missing-path",
+      "status": "PASS",
+      "detail": {
+        "url": "https://timeismoneycc-site.mistystep.io/timeismoneycc/__verify_missing__",
+        "status": 404
+      }
+    }
+  ],
+  "base": "https://timeismoneycc-site.mistystep.io",
+  "cleanup": "owned HTTP server stopped; temporary staging removed; browser contexts disposable",
+  "finished_utc": "2026-10-21T00:43:58.475994+00:00"
+}

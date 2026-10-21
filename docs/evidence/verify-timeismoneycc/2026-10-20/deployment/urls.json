@@ -1,0 +1,26 @@
+{
+  "client": "Python urllib default user agent; no authentication",
+  "observations": [
+    {
+      "requested": "https://timeismoneycc-site.mistystep.io/",
+      "final_url": "https://timeismoneycc-site.mistystep.io/",
+      "status": 403
+    },
+    {
+      "requested": "https://timeismoneycc-site.mistystep.io/timeismoneycc/",
+      "final_url": "https://timeismoneycc-site.mistystep.io/timeismoneycc/",
+      "status": 403
+    },
+    {
+      "requested": "https://moomooskycow.github.io/timeismoneycc/",
+      "final_url": "https://moomooskycow.github.io/timeismoneycc/",
+      "status": 404
+    },
+    {
+      "requested": "https://phrazzld.github.io/timeismoneycc/",
+      "final_url": "https://phrazzld.github.io/timeismoneycc/",
+      "status": 404
+    }
+  ],
+  "note": "Default urllib received 403 at Cloudflare; the named CLI doctor and Chromium use their own public user agents and are recorded separately. Legacy Pages URLs returned 404."
+}
