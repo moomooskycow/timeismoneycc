@@ -79,7 +79,7 @@ def main():
                 }
             exec(follow_code, namespace)
             for product, path, heading, token in products:
-                for variant in ['product', 'navigation-only', 'navigation-heading', 'title-only', 'hidden-heading', 'wrong-host', 'wrong-path']:
+                for variant in ['product', 'navigation-only', 'navigation-heading', 'title-only', 'hidden-heading', 'hidden-descendant', 'wrong-host', 'wrong-path']:
                     target = base + path
                     body = '<h1>' + heading + '</h1><p>Product specifications</p>'
                     if variant in ('navigation-only', 'navigation-heading', 'title-only', 'hidden-heading'):
@@ -91,6 +91,8 @@ def main():
                             body += '<h2 hidden>' + heading + '</h2>'
                     if variant == 'wrong-host':
                         target = target.replace('127.0.0.1', 'localhost')
+                    if variant == 'hidden-descendant':
+                        body = '<h1>Welcome to our shop <span hidden>' + heading + '</span></h1>'
                     if variant == 'wrong-path':
                         target = base + '/shop'
                     bodies[urllib.parse.urlsplit(target).path] = body

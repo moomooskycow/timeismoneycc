@@ -227,6 +227,7 @@ def drive(base, proof, local):
                         headings = popup.locator('h1, h2, [role="heading"]').filter(has_text=re.compile(heading, re.I))
                         visible = [item.inner_text().strip() for item in headings.all()
                                    if item.is_visible() and item.evaluate('(element) => !element.closest("nav, header, footer, [role=navigation]")')]
+                        visible = [text for text in visible if re.search(heading, text, re.I)]
                         assert visible, 'missing visible product heading: ' + product_name
                         identity = {'product': product_name, 'receiver_host': host, 'visible_product_headings': visible}
                     else:
