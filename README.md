@@ -71,6 +71,14 @@ This project uses pre-commit, post-commit, and pre-push hooks:
 - Run complete test suite
 - Validate branch naming convention (see CONTRIBUTING.md for naming guidelines)
 
+## Visitor verification
+
+Use the CLI [verify-timeismoneycc skill](.agents/skills/verify-timeismoneycc/SKILL.md)
+to drive the published promotional page locally and read-only on Cloudflare.
+Its feature map and retained evidence distinguish working visitor paths from
+broken external links and mobile layout failures. The Chrome extension itself
+is a separate product.
+
 ## Continuous Integration
 
 This project uses GitHub Actions for CI to ensure code quality. The CI pipeline runs automatically on pull requests and pushes to the `master` branch.

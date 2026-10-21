@@ -1,0 +1,12 @@
+PASS doctor-asset:/timeismoneycc/browser-scripts.js: {'url': 'http://127.0.0.1:38589/timeismoneycc/browser-scripts.js', 'status': 200, 'sha256': 'd961fd1c5cf5c75869f4660523bb16dd22fc769230e27e176fe1fd001fd17df2'}
+PASS doctor-asset:/timeismoneycc/images/chrome.png: {'url': 'http://127.0.0.1:38589/timeismoneycc/images/chrome.png', 'status': 200, 'sha256': '292f2fd6fa7ed33415adf055a79964e530bd08ee15481f6f8c6596fb35e94ce6'}
+PASS doctor-asset:/timeismoneycc/images/icon.png: {'url': 'http://127.0.0.1:38589/timeismoneycc/images/icon.png', 'status': 200, 'sha256': '41a6db3d3da384c9a2f2dba49bd6659e85f57352b2edb021b10ee814631b8e3a'}
+PASS doctor-asset:/timeismoneycc/index.html: {'url': 'http://127.0.0.1:38589/timeismoneycc/index.html', 'status': 200, 'sha256': 'b701d21f1b55ad3fb9ae4907446b13189c45f2480c810ccb62846b6ffeac973e'}
+PASS doctor-asset:/timeismoneycc/styles.css: {'url': 'http://127.0.0.1:38589/timeismoneycc/styles.css', 'status': 200, 'sha256': '8078cecb4c72fe93eb66ea8dc70d846f8807aa0919f800ca905965e174d8a1b1'}
+PASS doctor-root-and-homepage: {'root_redirect_to': 'http://127.0.0.1:38589/timeismoneycc/', 'status': 200, 'sha256': 'b701d21f1b55ad3fb9ae4907446b13189c45f2480c810ccb62846b6ffeac973e'}
+PASS doctor-missing-path: {'url': 'http://127.0.0.1:38589/timeismoneycc/__verify_missing__', 'status': 404}
+PASS landing: {'url': 'http://127.0.0.1:38589/timeismoneycc/', 'title': 'Time Is Money - See prices online as work hours', 'logo_loaded': True, 'bootstrap_loaded': True}
+FAIL harness: KeyboardInterrupt: interrupted before all requested checks completed
+Future exception was never retrieved
+future: <Future finished exception=TargetClosedError('Target page, context or browser has been closed')>
+playwright._impl._errors.TargetClosedError: Target page, context or browser has been closed

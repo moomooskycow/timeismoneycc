@@ -1,0 +1,9 @@
+{
+  "clicked": "/shop",
+  "final_url": "http://127.0.0.1:42279/shop",
+  "document_response": {
+    "url": "http://127.0.0.1:42279/shop",
+    "status": 200
+  },
+  "title": "Generic shop homepage"
+}

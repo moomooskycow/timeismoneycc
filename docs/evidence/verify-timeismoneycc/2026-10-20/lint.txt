@@ -1,0 +1,24 @@
+
+> timeismoneycc@1.0.0 lint:all
+> npm run lint && npm run lint:css && npm run format:check
+
+
+> timeismoneycc@1.0.0 lint
+> eslint **/*.ts
+
+
+./tests/scripts.test.ts
+  189:40  warning  Arrow function has too many lines (125). Maximum allowed is 100  max-lines-per-function
+
+✖ 1 problem (0 errors, 1 warning)
+
+
+> timeismoneycc@1.0.0 lint:css
+> stylelint styles.css
+
+
+> timeismoneycc@1.0.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!

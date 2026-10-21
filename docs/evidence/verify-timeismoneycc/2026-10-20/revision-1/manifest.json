@@ -1,0 +1,15 @@
+{
+  "parent_sha": "1b7a5d7afb9331b7fb1f17346f9f002aabba0eb7",
+  "base_sha": "4e1d23ffc8253bd1c662de5d63429ced7fb3ae95",
+  "source_state": "uncommitted verifier delta on parent_sha; checkout_sha in run results identifies the parent, not the patched source",
+  "verifier_sha256": "5b9637b5678b57e0a8dcf8f6d4baba7e336b4a9fd08b542ff4cd6f5fe6937ab6",
+  "original_evidence": "retained unchanged outside revision-1",
+  "local_server_port_closed_after_run": true,
+  "proof_kinds": {
+    "before-generic": "original reviewer reproducer adapted to the prepared worktree",
+    "before-regression": "pre-fix verifier at parent_sha; 24 receiver cases plus 8 interrupt assertions",
+    "after-regression": "patched verifier; 28 receiver cases (adds four navigation-heading negatives) plus 8 interrupt assertions",
+    "local": "pinned site on owned loopback server; real external anonymous GET receivers",
+    "production": "real canonical site and external anonymous GET receivers"
+  }
+}
