@@ -7,6 +7,7 @@ import http.server
 import json
 import os
 from pathlib import Path
+import re
 import subprocess
 import tempfile
 import threading
@@ -29,6 +30,15 @@ STATES = [
     ('EUR', '€', '9,61', 'hourly', 'Kindle Paperwhite', '99,99 EUR (10h 25m)'),
     ('MXN', '$', '31.30', 'hourly', 'Licuadora Oster', '$1,149.00 (36h 43m)'),
 ]
+PRODUCT_RECEIVERS = {
+    'Taurinus X200': ('shop.libiquity.com', r'/product/taurinus-x200/?', r'\btaurinus\s+x200\b'),
+    'Bulk crisps': ('www.britishfoodstoreonline.co.uk',
+                    r"/products/McCoy's-Salted-Ridge-Cut-Potato-Crisps-30-x-50G\.html",
+                    r'\bmccoy.?s\b.*\bsalted\b.*\bcrisps\b.*\b30\s*[x×]\s*50\s*g\b'),
+    'Kindle Paperwhite': ('www.amazon.fr', r'/(?:[^/]+/)?dp/B00QJDO0QC(?:/.*)?', r'\bkindle\s+paperwhite\b'),
+    'Licuadora Oster': ('www.linio.com.mx', r'/p/licuadora-oster-brly07-r00-013-con-motor-reversible-vino-vdataf/?',
+                       r'\blicuadora\s+oster\b.*\bbrly07[- ]r00[- ]013\b'),
+}
 
 
 def public_url(url):
@@ -57,8 +67,9 @@ class Proof:
             'mode': mode, 'started_utc': datetime.now(timezone.utc).isoformat(),
             'checkout_sha': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
             'serving_source': CONFIG['source_commit'], 'owner_sign_in': 'n/a: public static site; no authentication',
-            'checks': [],
+            'checks': [], 'completed': False, 'outcome': 'INCOMPLETE',
         }
+        self.save()
 
     def record(self, name, passed, detail):
         self.results['checks'].append({'name': name, 'status': 'PASS' if passed else 'FAIL', 'detail': detail})
@@ -176,7 +187,7 @@ def drive(base, proof, local):
             return {'natural_4_second_cycle': observations, 'uncaught_errors': errors}
         proof.check('demo-cycle-and-wrap', demo)
 
-        def follow(name, locator, store=False, expected_text=None):
+        def follow(name, locator, store=False, expected_text=None, product_name=None):
             href = locator.get_attribute('href')
             popup = None
             captured = False
@@ -198,7 +209,8 @@ def drive(base, proof, local):
                 receiver.dispose()
                 status = document['status']
                 assert status == 200, f'{public_url(popup.url)}: last document {document}'
-                assert urllib.parse.urlsplit(document['url']).netloc == urllib.parse.urlsplit(popup.url).netloc, document
+                assert document['url'] == public_url(popup.url), document
+                identity = {}
                 if store:
                     assert 'chromewebstore.google.com/detail/' in popup.url, popup.url
                     assert popup.get_by_role('heading', name='Time Is Money', exact=True).count(), text[:500]
@@ -207,8 +219,19 @@ def drive(base, proof, local):
                 else:
                     assert text.strip(), 'empty destination body'
                     assert not any(term in text.lower() for term in ['this site can’t be reached', '404 not found', 'access denied']), text[:500]
-                    assert expected_text in (popup.title() + ' ' + text).lower(), 'destination did not show expected content: ' + str(expected_text)
-                return {'clicked': href, 'final_url': public_url(popup.url), 'document_response': document, 'title': popup.title()}
+                    if product_name:
+                        host, path, heading = PRODUCT_RECEIVERS[product_name]
+                        receiver_url = urllib.parse.urlsplit(popup.url)
+                        assert receiver_url.netloc == host, 'wrong product receiver: ' + public_url(popup.url)
+                        assert re.fullmatch(path, urllib.parse.unquote(receiver_url.path)), 'wrong product path: ' + public_url(popup.url)
+                        headings = popup.locator('h1, h2, [role="heading"]').filter(has_text=re.compile(heading, re.I))
+                        visible = [item.inner_text().strip() for item in headings.all()
+                                   if item.is_visible() and item.evaluate('(element) => !element.closest("nav, header, footer, [role=navigation]")')]
+                        assert visible, 'missing visible product heading: ' + product_name
+                        identity = {'product': product_name, 'receiver_host': host, 'visible_product_headings': visible}
+                    else:
+                        assert expected_text in (popup.title() + ' ' + text).lower(), 'destination did not show expected content: ' + str(expected_text)
+                return {'clicked': href, 'final_url': public_url(popup.url), 'document_response': document, 'title': popup.title(), **identity}
             except Exception as error:
                 if popup and not captured:
                     try:
@@ -231,8 +254,7 @@ def drive(base, proof, local):
 
             def product(expected=expected):
                 page.wait_for_function('name => document.querySelector("#example-product a").textContent === name', arg=expected[4], timeout=22000)
-                token = {'Taurinus X200': 'taurinus', 'Bulk crisps': 'mccoy', 'Kindle Paperwhite': 'kindle', 'Licuadora Oster': 'oster'}[expected[4]]
-                return follow('outbound-' + expected[0], page.locator('#example-product a'), expected_text=token)
+                return follow('outbound-' + expected[0], page.locator('#example-product a'), product_name=expected[4])
             proof.check('outbound:' + name, product)
         proof.check('outbound:creator', lambda: follow('creator', page.get_by_role('link', name='Phaedrus', exact=True), expected_text='phaedrus'))
 
@@ -334,7 +356,13 @@ def main():
                 drive(base, proof, local=args.mode == 'local')
             elif not healthy:
                 proof.record('drive-precondition', False, 'doctor failed; instance not driven')
+        proof.results['completed'] = healthy
+        proof.results['outcome'] = 'FAIL' if any(item['status'] == 'FAIL' for item in proof.results['checks']) else 'PASS'
+    except KeyboardInterrupt:
+        proof.results['outcome'] = 'INTERRUPTED'
+        proof.record('harness', False, 'KeyboardInterrupt: interrupted before all requested checks completed')
     except Exception as error:
+        proof.results['outcome'] = 'INCOMPLETE'
         proof.record('harness', False, f'{type(error).__name__}: {str(error)[:1000]}')
     finally:
         if server:
@@ -342,9 +370,11 @@ def main():
             server.server_close()
             thread.join(timeout=5)
         proof.results['cleanup'] = 'owned HTTP server stopped; temporary staging removed; browser contexts disposable'
-        proof.results['finished_utc'] = datetime.now(timezone.utc).isoformat()
+        proof.results['ended_utc'] = datetime.now(timezone.utc).isoformat()
+        if proof.results['completed']:
+            proof.results['finished_utc'] = proof.results['ended_utc']
         proof.save()
-    return int(any(item['status'] == 'FAIL' for item in proof.results['checks']))
+    return int(not proof.results['completed'] or proof.results['outcome'] != 'PASS')
 
 
 if __name__ == '__main__':

@@ -1,0 +1,53 @@
+PASS doctor-asset:/timeismoneycc/browser-scripts.js: {'url': 'http://127.0.0.1:33735/timeismoneycc/browser-scripts.js', 'status': 200, 'sha256': 'd961fd1c5cf5c75869f4660523bb16dd22fc769230e27e176fe1fd001fd17df2'}
+PASS doctor-asset:/timeismoneycc/images/chrome.png: {'url': 'http://127.0.0.1:33735/timeismoneycc/images/chrome.png', 'status': 200, 'sha256': '292f2fd6fa7ed33415adf055a79964e530bd08ee15481f6f8c6596fb35e94ce6'}
+PASS doctor-asset:/timeismoneycc/images/icon.png: {'url': 'http://127.0.0.1:33735/timeismoneycc/images/icon.png', 'status': 200, 'sha256': '41a6db3d3da384c9a2f2dba49bd6659e85f57352b2edb021b10ee814631b8e3a'}
+PASS doctor-asset:/timeismoneycc/index.html: {'url': 'http://127.0.0.1:33735/timeismoneycc/index.html', 'status': 200, 'sha256': 'b701d21f1b55ad3fb9ae4907446b13189c45f2480c810ccb62846b6ffeac973e'}
+PASS doctor-asset:/timeismoneycc/styles.css: {'url': 'http://127.0.0.1:33735/timeismoneycc/styles.css', 'status': 200, 'sha256': '8078cecb4c72fe93eb66ea8dc70d846f8807aa0919f800ca905965e174d8a1b1'}
+PASS doctor-root-and-homepage: {'root_redirect_to': 'http://127.0.0.1:33735/timeismoneycc/', 'status': 200, 'sha256': 'b701d21f1b55ad3fb9ae4907446b13189c45f2480c810ccb62846b6ffeac973e'}
+PASS doctor-missing-path: {'url': 'http://127.0.0.1:33735/timeismoneycc/__verify_missing__', 'status': 404}
+PASS landing: {'url': 'http://127.0.0.1:33735/timeismoneycc/', 'title': 'Time Is Money - See prices online as work hours', 'logo_loaded': True, 'bootstrap_loaded': True}
+Traceback (most recent call last):
+  File "<string>", line 352, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "<string>", line 335, in main
+    drive(base, proof, local=args.mode == 'local')
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 178, in drive
+    proof.check('demo-cycle-and-wrap', demo)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 71, in check
+    detail = action()
+  File "<string>", line 170, in demo
+    page.wait_for_function('expected => document.querySelector("#income-amount").textContent === expected', arg=expected[2], timeout=6500)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/phaedrus/.cache/tmp/verify-timeismoneycc-tools/lib/python3.14/site-packages/playwright/sync_api/_generated.py", line 11599, in wait_for_function
+    self._sync(
+    ~~~~~~~~~~^
+        self._impl_obj.wait_for_function(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+        )
+        ^
+    )
+    ^
+  File "/home/phaedrus/.cache/tmp/verify-timeismoneycc-tools/lib/python3.14/site-packages/playwright/_impl/_sync_base.py", line 113, in _sync
+    self._dispatcher_fiber.switch()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/phaedrus/.cache/tmp/verify-timeismoneycc-tools/lib/python3.14/site-packages/playwright/sync_api/_context_manager.py", line 56, in greenlet_main
+    self._loop.run_until_complete(self._connection.run_as_sync())
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/asyncio/base_events.py", line 707, in run_until_complete
+    self.run_forever()
+    ~~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.14/asyncio/base_events.py", line 678, in run_forever
+    self._run_once()
+    ~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.14/asyncio/base_events.py", line 2019, in _run_once
+    event_list = self._selector.select(timeout)
+  File "/usr/lib/python3.14/selectors.py", line 452, in select
+    fd_event_list = self._selector.poll(timeout, max_ev)
+KeyboardInterrupt
+Future exception was never retrieved
+future: <Future finished exception=TargetClosedError('Target page, context or browser has been closed')>
+playwright._impl._errors.TargetClosedError: Target page, context or browser has been closed

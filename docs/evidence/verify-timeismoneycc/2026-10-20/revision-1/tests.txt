@@ -1,0 +1,122 @@
+
+> timeismoneycc@1.0.0 test
+> jest --no-cache --coverage --runInBand
+
+  console.error
+    {"timestamp":"2026-10-21T01:04:57.129Z","level":"error","message":"Required child elements not found in container","component":"applyState","containerId":"[unnamed]","missingElements":["currency-code"]}
+
+      60 |
+      61 |   // Output as JSON to appropriate console method based on level
+    > 62 |   console[level](JSON.stringify(logEntry));
+         |                 ^
+      63 | }
+      64 |
+      65 | // Expose logger to the global scope for browser use
+
+      at log (logger.ts:62:17)
+      at log (scripts.ts:307:5)
+      at applyState (scripts.ts:246:3)
+      at tests/scripts.test.ts:383:32
+      at Object.<anonymous> (node_modules/expect/build/toThrowMatchers.js:74:11)
+      at Object.throwingMatcher [as toThrow] (node_modules/expect/build/index.js:320:21)
+      at Object.<anonymous> (tests/scripts.test.ts:383:36)
+
+  console.error
+    {"timestamp":"2026-10-21T01:04:57.157Z","level":"error","message":"Required child elements not found in container","component":"applyState","containerId":"incomplete-container","missingElements":["currency-symbol","example-price"]}
+
+      60 |
+      61 |   // Output as JSON to appropriate console method based on level
+    > 62 |   console[level](JSON.stringify(logEntry));
+         |                 ^
+      63 | }
+      64 |
+      65 | // Expose logger to the global scope for browser use
+
+      at log (logger.ts:62:17)
+      at log (scripts.ts:307:5)
+      at tests/scripts.test.ts:494:28
+      at Object.<anonymous> (node_modules/expect/build/toThrowMatchers.js:74:11)
+      at Object.throwingMatcher [as toThrow] (node_modules/expect/build/index.js:320:21)
+      at Object.<anonymous> (tests/scripts.test.ts:494:51)
+
+PASS tests/scripts.test.ts
+  Time Is Money DOM Elements
+    isElementText function
+      ✓ returns true when element exists and text content matches (5 ms)
+      ✓ returns false when element exists but text content does not match (1 ms)
+      ✓ returns false when element is null
+    getCopyrightText function
+      ✓ returns correct copyright text for a given year (1 ms)
+    applyCopyrightText function
+      ✓ applies copyright text with current year to the DOM (2 ms)
+      ✓ does nothing when copyright element does not exist (1 ms)
+  URL and State Index Logic
+    isValidHttpUrl function
+      ✓ validates correct HTTP and HTTPS URLs (1 ms)
+      ✓ rejects invalid or non-HTTP URLs
+    calculateNextStateIndex function
+      ✓ returns correct next index
+      ✓ wraps around at the end of the array
+      ✓ handles edge cases (1 ms)
+  Currency State Transitions
+    Cycle Tests
+      ✓ cycles through all currency states in sequence (10 ms)
+      ✓ completes a full cycle and returns to the initial state (3 ms)
+    Individual Transitions
+      ✓ transitions from USD hourly to USD yearly (1 ms)
+      ✓ transitions from USD yearly to GBP (1 ms)
+      ✓ transitions from GBP to EUR (2 ms)
+      ✓ transitions from EUR to MXN (5 ms)
+      ✓ transitions from MXN back to USD hourly (3 ms)
+    Error Handling
+      ✓ throws error when DOM elements are missing (22 ms)
+  Apply State Functionality
+    ✓ applyState correctly updates DOM with state data (2 ms)
+    ✓ applyState handles different currency formatting correctly (3 ms)
+    ✓ applyState handles invalid URLs safely (2 ms)
+    ✓ applyState throws error when container is missing required elements (3 ms)
+  Interval Timer
+    startExampleInterval function
+      ✓ calls setInterval with shiftExample and the defined interval delay (2 ms)
+      ✓ timer uses the correct interval value from EXAMPLE_CYCLE_INTERVAL_MS constant (2 ms)
+    initializeApplication function
+      ✓ calls both startExampleInterval and applyCopyrightText (1 ms)
+
+PASS tests/pure-logic.test.ts
+  URL Validation Logic
+    isValidHttpUrl function
+      ✓ validates correct HTTP URLs (1 ms)
+      ✓ validates correct HTTPS URLs (2 ms)
+      ✓ rejects malformed URLs (7 ms)
+      ✓ rejects non-HTTP/HTTPS protocols (security check) (1 ms)
+      ✓ handles edge cases correctly (3 ms)
+  State Index Logic
+    calculateNextStateIndex function
+      ✓ returns correct next index for sequential values (1 ms)
+      ✓ wraps around when reaching the end of the array
+      ✓ handles edge cases correctly
+      ✓ matches actual currencyStates cycling behavior
+  State Transition Logic
+    ✓ transitions through all states in expected sequence (1 ms)
+    ✓ returns to initial state after complete cycle
+    ✓ each currency in sequence has valid properties (2 ms)
+    ✓ specific currency examples match expected values
+
+PASS tests/logger.test.ts
+  Logger Module
+    ✓ calls appropriate console method based on log level (1 ms)
+    ✓ formats log message as JSON with timestamp and level
+    ✓ includes additional context in log output (1 ms)
+    ✓ works with all log levels
+
+------------|---------|----------|---------|---------|-------------------------
+File        | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+------------|---------|----------|---------|---------|-------------------------
+All files   |   75.73 |       60 |   94.73 |   75.37 |
+ scripts.ts |   75.73 |       60 |   94.73 |   75.37 | 236-239,272-281,402-453
+------------|---------|----------|---------|---------|-------------------------
+Test Suites: 3 passed, 3 total
+Tests:       43 passed, 43 total
+Snapshots:   0 total
+Time:        1.37 s
+Ran all test suites.

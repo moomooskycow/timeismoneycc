@@ -1,0 +1,60 @@
+Workspace: ~/.cache/tmp/verify-timeismoneycc
+Branch: verify/verification-skill; existing PR #15
+Base: 4e1d23ffc8253bd1c662de5d63429ced7fb3ae95
+Revision parent: 1b7a5d7afb9331b7fb1f17346f9f002aabba0eb7
+Exact verifier SHA256: 5b9637b5678b57e0a8dcf8f6d4baba7e336b4a9fd08b542ff4cd6f5fe6937ab6
+Runs used the uncommitted verifier delta; manifest.json labels that source state.
+Python below: ~/.cache/tmp/verify-timeismoneycc-tools/bin/python
+Evidence root below: docs/evidence/verify-timeismoneycc/2026-10-20/revision-1
+
+$ python .agents/skills/verify-timeismoneycc/regression.py --source-ref 1b7a5d7afb9331b7fb1f17346f9f002aabba0eb7 --evidence <evidence-root>/before-regression
+Exit 1: 8 PASS / 24 FAIL. Baseline accepts 20 non-product fixtures and lacks four interruption semantics.
+24 receiver cases + 8 interruption assertions. See before-regression/results.json.
+
+$ python .agents/skills/verify-timeismoneycc/regression.py --evidence <evidence-root>/after-regression
+Exit 0: 36 PASS / 0 FAIL. Includes four additional navigation-heading negatives.
+28 receiver cases + 8 interruption assertions. See after-regression/results.json.
+Actual SIGINT child exits 1 with completed=false, outcome=INTERRUPTED, failed harness check,
+no finished_utc; owned server port closed, staging removed, evidence retained.
+
+$ python .agents/skills/verify-timeismoneycc/verify.py local --evidence <evidence-root>/local
+Exit 1: 14 PASS / 5 FAIL; completed=true, outcome=FAIL.
+All seven doctor checks pass; real Kindle product identity, Web Store listing, demo cycle,
+delayed CSS, offline recovery, and JavaScript-disabled fallback pass. Failures retained.
+
+$ python .agents/skills/verify-timeismoneycc/verify.py production --evidence <evidence-root>/production
+Exit 1: 11 PASS / 5 FAIL; completed=true, outcome=FAIL.
+All seven doctor checks pass; Web Store listing and creator receiver pass.
+Kindle interstitial, three other product failures, and mobile defect remain failures.
+
+$ npm run lint:all
+Exit 0: ESLint, Stylelint, and Prettier pass. Existing test-file function-length warning remains.
+See lint.txt.
+
+$ npm run typecheck
+Exit 0. See typecheck.txt.
+
+$ npm test -- --coverage --runInBand
+Exit 0: 3 suites, 43 tests pass. See tests.txt.
+
+$ gitleaks dir .agents/skills/verify-timeismoneycc --redact=100 --no-banner
+Exit 0: no leaks.
+
+$ gitleaks dir docs/evidence/verify-timeismoneycc/2026-10-20/revision-1 --redact=100 --no-banner
+Exit 0: no leaks.
+
+$ git diff --cached --check
+Exit 0.
+
+Standard-library artifact assertions:
+- Both helpers compile and have executable bits; both --help commands work.
+- Relative Claude symlink and all links in changed skill/evidence documents resolve.
+- All 74 original evidence files match parent commit byte for byte.
+- Product files, deployment configuration, source pin, and asset hashes are unchanged.
+- New artifacts are below 500 KB; every JSON file parses.
+- Current verifier digest matches after-regression/results.json and manifest.json.
+- Local completed run's owned loopback port is closed after cleanup.
+
+The separate before-generic.txt is the original reviewer reproducer adapted only to the
+prepared worktree/evidence paths, run before patching. Its result preserves the false pass.
+The immutable original commissioning evidence is not overwritten or relabeled as a rerun.
