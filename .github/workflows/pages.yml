@@ -13,7 +13,7 @@ permissions:
 jobs:
   build:
     name: Build static website
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, hetzner-ci, timeismoneycc-ci]
 
     steps:
     - name: Checkout code
@@ -34,7 +34,7 @@ jobs:
     name: Deploy to GitHub Pages
     if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, hetzner-ci, timeismoneycc-ci]
     permissions:
       pages: write
       id-token: write
