@@ -17,7 +17,7 @@ permissions:
 jobs:
   lint:
     name: Lint
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, hetzner-ci, timeismoneycc-ci]
 
     steps:
     - name: Checkout code
@@ -55,7 +55,7 @@ jobs:
 
   typecheck:
     name: TypeScript Check
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, hetzner-ci, timeismoneycc-ci]
 
     steps:
     - name: Checkout code
@@ -82,7 +82,7 @@ jobs:
 
   test:
     name: Test
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, hetzner-ci, timeismoneycc-ci]
 
     steps:
     - name: Checkout code
@@ -116,7 +116,7 @@ jobs:
 
   security:
     name: Security Scan
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, hetzner-ci, timeismoneycc-ci]
 
     steps:
     - name: Checkout code
